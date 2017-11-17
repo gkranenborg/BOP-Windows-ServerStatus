@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="systemApp">
+<head>
+      <title>Application Status</title>
+      <script type="text/javascript" src="system/scripts/jquery.min.js"></script>
+      <link rel="stylesheet" type="text/css" href="system/style/bootstrap.css" />
+      <link rel="stylesheet" href="system/style/systemstyle.css" />
+      <script type="text/javascript" src="system/scripts/angular.min.js"></script>
+      <script type="text/javascript" src="system/scripts/bootstrap.min.js"></script>
+      <script type="text/javascript" src="system/scripts/systemcontroller.js"></script>
+      <script type="text/javascript" src="system/scripts/systemfactory.js"></script>
+</head>
+<body ng-controller="SystemCtrl">
+      <nav class="navbar navbar-inverse">
+	     <div class="container-fluid">
+	       <div class="navbar-header">
+	         <a class="navbar-brand">{{customer.customername}} Status</a>
+	       </div>
+	       <div class="collapse navbar-collapse">
+	          <ul class="nav navbar-nav">
+	             <li><a href="{{baseurl}}/home/system/wcp/debugger/gatewayperformance.htm" target="_blank">WebGateway Performance test</a></li>
+	             <li><a href="{{baseurl}}/cordys/wcp/library/util/eventservice/com.eibus.web.tools.healthCheck.HealthCheckURL.wcp" target="_blank">WebGateway Health check</a></li>
+	             <li><a href="alerts.htm" target="_blank">Alert history</a></li>
+	             <h6 class="timestampclass">(last refresh : {{datetime.datetime}} (UTC))</h6>
+	         </ul>
+     	   </div>
+	    </div>
+	 </nav>
+	 <div class="row">
+	    <div class="col-lg-1"></div>
+	    <div class="col-lg-7">
+	       <div ng-show="organizations.length>1">
+	          <div ng-if="cordyssc.length>0">
+		         <div class="orgtext" ng-show="formData.selectedItem!='All'">
+		            <h5>The Service Containers shown below belong to the <u><b>{{formData.selectedItem}}</b></u> organization. Select another organization to show its Service Containers :
+			        </h5><br\>
+		         </div>
+		         <div class="orgtext" ng-show="formData.selectedItem=='All'">
+		            <h5>The Service Containers for <u><b>ALL</b></u> organizations are shown below. Select another organization to show its Service Containers :
+			        </h5><br\>
+		         </div>
+		         <select class="orgtext" ng-change="ChangeSoap()" ng-model="formData.selectedItem" ng-options="org.description as org.description for org in displayOrganizations">
+			     </select>
+		      </div>
+           </div>
+        </div>
+     </div>
+	 <div class="row">
+	    <div class="col-lg-1"></div>
+	    <div class="col-lg-7">
+	       <div ng-show="organizations.length>1">
+		      <div ng-if="cordyssc.length==0">
+			     <br><br><br>
+				 <h5>There are no Service Containers in the <u><b>{{selectedItem}}</b></u> organization.</h5><br\>
+			  </div>
+		   </div>
+		   <table class="table table-condensed table-bordered" ng-show="cordyssc.length>0">
+		      <caption><h4>Cordys BOP Service Container overview :</h4></caption>
+			     <thead>
+				    <tr>
+					   <th>
+					      <a href="#" ng-click="orderByField='cn'; reverseSort = !reverseSort">Service Container :
+						     <span ng-show="orderByField == 'cn'">
+						        <span ng-show="!reverseSort"> ^</span>
+						        <span ng-show="reverseSort"> v</span>
+						     </span>
+						  </a>
+					   </th>
+					   <th>
+						   <a href="#" ng-click="orderByField='orgnamepersc'; reverseSort = !reverseSort">Organization :
+						      <span ng-show="orderByField == 'orgnamepersc'">
+							     <span ng-show="!reverseSort"> ^</span>
+								 <span ng-show="reverseSort"> v</span>
+							  </span>
+						   </a>
+					   </th>
+					   <th>
+					      <a href="#" ng-click="orderByField='status'; reverseSort = !reverseSort">Status :&nbsp &nbsp
+						     <span ng-show="orderByField == 'status'">
+							    <span ng-show="!reverseSort"> ^</span>
+								<span ng-show="reverseSort"> v</span>
+							 </span>
+						  </a>
+					   </th>
+					   <th>
+					      <a href="#" ng-click="orderByField='automaticstart'; reverseSort = !reverseSort">Auto startup :
+						     <span ng-show="orderByField == 'automaticstart'">
+							    <span ng-show="!reverseSort"> ^</span>
+								<span ng-show="reverseSort"> v</span>
+							 </span>
+						  </a>
+					   </th>
+					   <th>
+					      <a href="#" ng-click="orderByField='vmemory'; reverseSort = !reverseSort">V. Mem. (Kb.) :
+						     <span ng-show="orderByField == 'vmemory'">
+							    <span ng-show="!reverseSort"> ^</span>
+								<span ng-show="reverseSort"> v</span>
+							 </span>
+						  </a>
+					   </th>
+					   <th>
+					      <a href="#" ng-click="orderByField='rmemory'; reverseSort = !reverseSort">Res. Mem. (Kb.) :
+						     <span ng-show="orderByField == 'rmemory'">
+							    <span ng-show="!reverseSort"> ^</span>
+								<span ng-show="reverseSort"> v</span>
+							 </span>
+						  </a>
+					   </th>
+					   <th>
+					      <a href="#" ng-click="orderByField='nmemory'; reverseSort = !reverseSort">NOM Mem. (Kb.) :
+						     <span ng-show="orderByField == 'nmemory'">
+							    <span ng-show="!reverseSort"> ^</span>
+								<span ng-show="reverseSort"> v</span>
+							 </span>
+						  </a>
+					   </th>
+					   <th>
+					      <a href="#" ng-click="orderByField='pid'; reverseSort = !pid">PID :
+						     <span ng-show="orderByField == 'pid'">
+							    <span ng-show="!reverseSort"> ^</span>
+								<span ng-show="reverseSort"> v</span>
+							 </span>
+						  </a>
+					   </th>
+				    </tr>
+			     </thead>
+				 <tbody>
+				    <tr ng-repeat="container in cordyssc|orderBy:orderByField:reverseSort">
+					   <td>{{container.cn}}</td>
+					   <td>{{container.orgnamepersc}}</td>
+					   <td class="{{getSoapClass(container.status, container.automaticstart)}}">{{container.status}}</td>
+					   <td>{{container.automaticstart}}</td>
+					   <td>{{container.vmemory}}</td>
+					   <td>{{container.rmemory}}</td>
+					   <td>{{container.nmemory}}</td>
+					   <td>{{container.pid}}</td>
+					</tr>
+				 </tbody>
+			</table>
+	    </div>
+	 </div>
+</body>
+</html>

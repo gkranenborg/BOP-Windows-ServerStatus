@@ -1,0 +1,8 @@
+[
+{"Date":"04/03/2016 07:53:24","Type":"DiskSpace","Alert":"C:  2.84 Gb."},
+{"Date":"04/05/2016 05:10:01","Type":"ServiceAlert","Alert":"OpenLDAP-slapd Production, Cordys Monitor Production, IISADMIN down"},
+{"Date":"04/06/2016 05:10:05","Type":"ServiceAlert","Alert":"OpenLDAP-slapd Production, Cordys Monitor Production, IISADMIN down"},
+{"Date":"04/06/2016 05:25:01","Type":"ServiceAlert","Alert":"OpenLDAP-slapd Production, Cordys Monitor Production, Jackrabbit, IISADMIN down"},
+{"Date":"04/07/2016 05:10:12","Type":"ServiceAlert","Alert":"OpenLDAP-slapd Production, Cordys Monitor Production, IISADMIN down"},
+{"Date":"04/07/2016 05:25:02","Type":"ServiceAlert","Alert":"OpenLDAP-slapd Production, Cordys Monitor Production, Jackrabbit, IISADMIN down"}
+]
